@@ -176,7 +176,7 @@ class Modmail(commands.Bot):
             name='<Music Zone>', 
             overwrites=self.overwrites(ctx)
             )
-        await info.edit(position=0)
+        await infocateg.edit(position=0)
         c = await ctx.guild.create_text_channel(name='🎉welcome🎉', category=infocateg)
         a = await ctx.guild.create_text_channel(name='🎯rules🎯', category=infocateg)
         c = await ctx.guild.create_text_channel(name='🎥featured-content🎥', category=infocateg)
