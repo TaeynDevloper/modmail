@@ -141,7 +141,7 @@ class Modmail(commands.Bot):
                '10) Do not post graphic pictures of minors (<18yo)'               
                
         warn = 'Never Try to break any rules otherwise you will be punished for your violation '
-        em.add_field(name='Help Command', value='d!help')
+        em.add_field(name='Help Command', value='``d!help``')
         em.set_footer(text='Thanks for adding our bot')
         return em
 
