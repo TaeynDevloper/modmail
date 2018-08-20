@@ -1,27 +1,3 @@
-'''
-MIT License
-
-Copyright (c) 2017 Kyb3r
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-'''
-
 GUILD_ID = 0 # your guild id here
 
 import discord
@@ -152,7 +128,7 @@ class Modmail(commands.Bot):
         em = discord.Embed(color=0x00FFFF)
         em.set_author(name='Mod Mail - Help', icon_url=self.user.avatar_url)
         em.description = 'This bot is a python implementation of a stateless "Mod Mail" bot. ' \
-                         'Made by Kyb3r and improved by the suggestions of others. This bot ' \
+                         'Improved by the suggestions of others. This bot ' \
                          'saves no data and utilises channel topics for storage and syncing.' 
                  
 
@@ -160,7 +136,6 @@ class Modmail(commands.Bot):
                f'`{prefix}reply <message...>` - Sends a message to the current thread\'s recipient.\n' \
                f'`{prefix}close` - Closes the current thread and deletes the channel.\n' \
                f'`{prefix}disable` - Closes all threads and disables modmail for the server.\n' \
-               f'`{prefix}customstatus` - Sets the Bot status to whatever you want.' \
                f'`{prefix}block` - Blocks a user from using modmail!' \
                f'`{prefix}unblock` - Unblocks a user from using modmail!'
 
@@ -387,15 +362,6 @@ class Modmail(commands.Bot):
                 if 'User ID:' in ctx.channel.topic:
                     ctx.message.content = msg
                     await self.process_reply(ctx.message)
-
-    @commands.command(name="customstatus", aliases=['status', 'presence'])
-    @commands.has_permissions(administrator=True)
-    async def _status(self, ctx, *, message):
-        '''Set a custom playing status for the bot.'''
-        if message == 'clear':
-            return await self.change_presence(activity=None)
-        await self.change_presence(activity=discord.Game(message))
-        await ctx.send(f"Changed status to **{message}**")
 
     @commands.command()
     @commands.has_permissions(manage_channels=True)
