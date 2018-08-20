@@ -121,8 +121,8 @@ class Modmail(commands.Bot):
         else:
             for role in self.guess_modroles(ctx):
                 overwrites[role] = discord.PermissionOverwrite(read_messages=True)
-
         return overwrites
+    
     def rules_embed(self, prefix):
         em = discord.Embed(color=0x00FFFF)
         em.set_author(name='Rules', icon_url=self.user.avatar_url)
@@ -176,7 +176,7 @@ class Modmail(commands.Bot):
             name='<Music Zone>', 
             overwrites=self.overwrites(ctx)
             )
-        await categ.edit(position=0)
+        await info.edit(position=0)
         c = await ctx.guild.create_text_channel(name='🎉welcome🎉', category=infocateg)
         a = await ctx.guild.create_text_channel(name='🎯rules🎯', category=infocateg)
         c = await ctx.guild.create_text_channel(name='🎥featured-content🎥', category=infocateg)
