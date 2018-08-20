@@ -138,7 +138,7 @@ class Modmail(commands.Bot):
                '7) Post content in the correct channels.\n' \
                '8) Don not post personal information of anyone without permission.\n' \
                '9) Listen to what Staff & Moderator says.\n' \
-               '10) Do not post graphic pictures of minors (<18yo)\n' \               
+               '10) Do not post graphic pictures of minors (<18yo)'               
                
         warn = 'Never Try to break any rules otherwise you will be punished for your violation '
         em.add_field(name='Help Command', value='d!help')
