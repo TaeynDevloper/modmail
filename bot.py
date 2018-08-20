@@ -123,7 +123,82 @@ class Modmail(commands.Bot):
                 overwrites[role] = discord.PermissionOverwrite(read_messages=True)
 
         return overwrites
+    def rules_embed(self, prefix):
+        em = discord.Embed(color=0x00FFFF)
+        em.set_author(name='Rules', icon_url=self.user.avatar_url)
+        em.description = 'You should follow the rules mentioned below' 
+                 
 
+        cmds = '1) Be respectful.\n' \
+               '2) Sending/Linking any harmful material such as viruses, IP grabbers or harmware results in an immediate and permanent ban.\n' \
+               '3) Use proper grammar and spelling and never do spammaing.' \
+               '4) Usage of excessive extreme innapropriate langauge is prohibited.\n' \
+               '5) Mentioning @everyone or @here , the Moderators or a specific person without proper reason is prohibited.\n' \
+               '6) Act civil in Voice Chat.\n' \
+               '7) Post content in the correct channels.\n' \
+               '8) Don not post personal information of anyone without permission.\n' \
+               '9) Listen to what Staff & Moderator says.\n' \
+               '10) Do not post graphic pictures of minors (<18yo)\n' \               
+               
+        warn = 'Never Try to break any rules otherwise you will be punished for your violation '
+        em.add_field(name='Help Command', value='d!help')
+        em.set_footer(text='Thanks for adding our bot')
+        return em
+
+    @commands.command()
+    @commands.has_permissions(administrator=True)
+    async def setupserver(self, ctx, *, modrole: discord.Role=None):
+        '''Sets up a server'''
+        if discord.utils.get(ctx.guild.categories, name='<Information For All>'):
+            return await ctx.send('This server is already set up.')
+
+        infocateg = await ctx.guild.create_category(
+            name='<Information For All>', 
+            overwrites=self.overwrites(ctx, modrole=modrole)
+            )
+        gencateg = await ctx.guild.create_category(
+            name='<General Zone>', 
+            overwrites=self.overwrites(ctx)
+            )
+        botcateg = await ctx.guild.create_category(
+            name='<BOTS Zone>', 
+            overwrites=self.overwrites(ctx)
+            )
+        concateg = await ctx.guild.create_category(
+            name='<Content Zone>', 
+            overwrites=self.overwrites(ctx)
+            )
+        mucateg = await ctx.guild.create_category(
+            name='<Music Zone>', 
+            overwrites=self.overwrites(ctx)
+            )
+        vccateg = await ctx.guild.create_category(
+            name='<Music Zone>', 
+            overwrites=self.overwrites(ctx)
+            )
+        await categ.edit(position=0)
+        c = await ctx.guild.create_text_channel(name='🎉welcome🎉', category=infocateg)
+        a = await ctx.guild.create_text_channel(name='🎯rules🎯', category=infocateg)
+        c = await ctx.guild.create_text_channel(name='🎥featured-content🎥', category=infocateg)
+        c = await ctx.guild.create_text_channel(name='📢announcements📢', category=infocateg)
+        c = await ctx.guild.create_text_channel(name='📢vote_polls📢', category=infocateg)
+        c = await ctx.guild.create_text_channel(name='🎮general_chat🎮', category=gencateg)
+        c = await ctx.guild.create_text_channel(name='🎮general_media🎮', category=gencateg)
+        c = await ctx.guild.create_text_channel(name='👍bots_zone👍', category=botcateg)
+        c = await ctx.guild.create_text_channel(name='🎥youtube_links🎥', category=concateg)
+        c = await ctx.guild.create_text_channel(name='🎥giveaway_links🎥', category=concateg)
+        c = await ctx.guild.create_text_channel(name='🎥other_links🎥', category=concateg)
+        c = await ctx.guild.create_voice_channel(name='🔥Music Zone🔥', category=mucateg)
+        c = await ctx.guild.create_text_channel(name='🔥music_commands🔥', category=mucateg)
+        c = await ctx.guild.create_voice_channel(name='🔥Chill Voice🔥', category=vccateg)
+        c = await ctx.guild.create_voice_channel(name='🔥General Voice🔥', category=vccateg)
+        c = await ctx.guild.create_voice_channel(name='🔥Youtube Talks🔥', category=vccateg)
+
+        await c.edit(topic='Manually add user id\'s to block users.\n\n'
+                           'Blocked\n-------\n\n')
+        await a.send(embed=self.rules_embed(ctx.prefix))
+        await ctx.send('Successfully set up server.')
+        
     def help_embed(self, prefix):
         em = discord.Embed(color=0x00FFFF)
         em.set_author(name='Mod Mail - Help', icon_url=self.user.avatar_url)
