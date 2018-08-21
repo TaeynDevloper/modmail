@@ -232,7 +232,20 @@ class Modmail(commands.Bot):
         color = discord.Color(value=0x00ff00)
         em = discord.Embed(color=color, title='Rolled! (1 6-sided die)', description=random.choice(choices))
         await ctx.send(embed=em)
-      
+
+    @commands.command()
+    @commands.has_permissions(administrator = True)
+    async def dm(self, ctx, user: discord.Member, *, msg: str):
+        """Escort your DM to someone thru the bot. Usage: *dm [tag person] [msg]"""
+        try:
+            await user.send(msg)
+            await ctx.message.delete()            
+            await ctx.send("SuccESS! Your DM has made it! :white_check_mark: ")
+        except discord.ext.commands.MissingPermissions:
+            await ctx.send("Aw, come on! You thought you could get away with DM'ing people without permissions.")
+        except:
+            await ctx.send("Error :x:. Make sure your message is shaped in this way: *dm [tag person] [msg]")
+
     @commands.command()
     async def flipcoin(self, ctx):
         """Flip a coin. Any coin."""
