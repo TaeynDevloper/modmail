@@ -232,42 +232,7 @@ class Modmail(commands.Bot):
         color = discord.Color(value=0x00ff00)
         em = discord.Embed(color=color, title='Rolled! (1 6-sided die)', description=random.choice(choices))
         await ctx.send(embed=em)
-        
-    @commands.command(aliases=['tf'])
-    async def textface(self, ctx, Type):
-        """Get those dank/cool faces here. Type *textface list for a list."""
-        if Type is None:
-            await ctx.send('That is NOT one of the dank textfaces in here yet. Use: *textface [lenny/tableflip/shrug]')
-        else:
-            if Type.lower() == 'lenny':
-              await ctx.send('( ͡° ͜ʖ ͡°)')
-            elif Type.lower() == 'tableflip':
-              await ctx.send('(ノಠ益ಠ)ノ彡┻━┻')
-            elif Type.lower() == 'shrug':
-              await ctx.send('¯\_(ツ)_/¯')
-            elif Type.lower() == 'bignose':
-              await ctx.send('(͡ ͡° ͜ つ ͡͡°)')
-            elif Type.lower() == 'iwant':
-              await ctx.send('ლ(´ڡ`ლ)')
-            elif Type.lower() == 'musicdude':
-              await ctx.send('ヾ⌐*_*ノ♪')
-            elif Type.lower() == 'wot':
-              await ctx.send('ლ,ᔑ•ﺪ͟͠•ᔐ.ლ')
-            elif Type.lower() == 'bomb':
-              await ctx.send('(´・ω・)っ由')
-            elif Type.lower() == 'orlly':
-              await ctx.send("﴾͡๏̯͡๏﴿ O'RLY?")
-            elif Type.lower() == 'money':
-              await ctx.send('[̲̅$̲̅(̲̅ ͡° ͜ʖ ͡°̲̅)̲̅$̲̅]')
-            elif Type.lower() == 'list':
-              color = discord.Color(value=0x00ff00)
-              em = discord.Embed(color=color, title='List of Textfaces')
-              em.description = 'Choose from the following: lenny, tableflip, shrug, bignose, iwant, musicdude, wot, bomb, orlly, money. Type *textface [face].'
-              em.set_footer(text="Don't you dare question my names for the textfaces.")
-              await ctx.send(embed=em)
-            else:
-              await ctx.send('That is NOT one of the dank textfaces in here yet. Use *textface list to see a list of the textfaces.')
-            
+      
     @commands.command()
     async def flipcoin(self, ctx):
         """Flip a coin. Any coin."""
