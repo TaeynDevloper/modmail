@@ -241,7 +241,13 @@ class Modmail(commands.Bot):
         em=discord.Embed(color=color, title='Flipped a coin!')
         em.description = random.choice(choices)
         await ctx.send(embed=em)
-        
+    @commands.command(aliases=['av'])
+    async def avatar(self, ctx, user: discord.Member):
+        """Returns a user's avatar url. Use *av [user], or just *av for your own."""
+        if user is None:
+            await ctx.send(ctx.message.author.avatar_url)                   
+        else:
+            await ctx.send(user.avatar_url)      
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupmail(self, ctx, *, modrole: discord.Role=None):
