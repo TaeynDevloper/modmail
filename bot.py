@@ -17,7 +17,9 @@ import io
 import inspect
 import random
 from contextlib import redirect_stdout
-
+from .bot import BlobGivingBot
+from .config import Config
+import config
 
 class Modmail(commands.Bot):
     def __init__(self):
