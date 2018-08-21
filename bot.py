@@ -240,11 +240,42 @@ class Modmail(commands.Bot):
         try:
             await user.send(msg)
             await ctx.message.delete()            
-            await ctx.send("SuccESS! Your DM has made it! :white_check_mark: ")
+            await ctx.send("Success! Your DM has made it! :white_check_mark: ")
         except discord.ext.commands.MissingPermissions:
             await ctx.send("Aw, come on! You thought you could get away with DM'ing people without permissions.")
         except:
             await ctx.send("Error :x:. Make sure your message is shaped in this way: *dm [tag person] [msg]")
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def mute(self, ctx, user: discord.Member, mutetime=None):
+        '''Forces someone to shut up. Usage: *mute [user] [time in mins]'''
+        try:
+            if mutetime is None:
+                await ctx.channel.set_permissions(user, send_messages=False)
+                await ctx.send(f"{user.mention} is now forced to shut up. :zipper_mouth: ")
+            else:
+                try:
+                    mutetime =int(mutetime)
+                    mutetime = mutetime * 60
+                except ValueError:
+                    return await ctx.send("Your time is an invalid number. Make sure...it is a number.")
+                await ctx.channel.set_permissions(user, send_messages=False)
+                await ctx.channel.send(f"{user.mention} is now forced to shut up. :zipper_mouth: ")
+                await asyncio.sleep(mutetime)
+                await ctx.channel.set_permissions(user, send_messages=True)
+                await ctx.channel.send(f"{user.mention} is now un-shutted up.")
+        except discord.Forbidden:
+            return await ctx.send("I could not mute the user. Make sure I have the manage channels permission.")
+        except discord.ext.commands.MissingPermissions:
+            await ctx.send("Aw, come on! You thought you could get away with shutting someone up without permissions.")
+
+
+    @commands.command()
+    @commands.has_permissions(ban_members=True)
+    async def unmute(self, ctx, user: discord.Member):
+        '''Allows someone to un-shut up. Usage: *unmute [user]'''
+        await ctx.channel.set_permissions(user, send_messages=True)
+        await ctx.channel.send(f"{user.mention} is now un-shutted up.")
 
     @commands.command()
     async def flipcoin(self, ctx):
