@@ -3,6 +3,7 @@ GUILD_ID = 0 # your guild id here
 import discord
 from discord.ext import commands
 from urllib.parse import urlparse
+from random import choice, shuffle
 import asyncio
 import textwrap
 import datetime
@@ -16,7 +17,18 @@ import traceback
 import io
 import inspect
 import random
+import aiohttp
+import functools
 from contextlib import redirect_stdout
+
+try:
+    from imgurpython import ImgurClient
+except:
+    ImgurClient = False
+
+CLIENT_ID = "1fd3ef04daf8cab"
+CLIENT_SECRET = "f963e574e8e3c17993c933af4f0522e1dc01e230"
+GIPHY_API_KEY = "dc6zaTOxFJmzC"
 
 class Modmail(commands.Bot):
     def __init__(self):
@@ -145,7 +157,51 @@ class Modmail(commands.Bot):
         em.add_field(name='Github', value='https://github.com/uksoftworld/modmail')
         em.set_footer(text='Thanks for adding our bot')
         return em
+    
+    @commands.command(pass_context=True, no_pm=True)
+    async def gif(self, ctx, *keywords):
+        """Retrieves first search result from giphy"""
+        if keywords:
+            keywords = "+".join(keywords)
+        else:
+            await self.bot.send_cmd_help(ctx)
+            return
 
+        url = ("http://api.giphy.com/v1/gifs/search?&api_key={}&q={}"
+               "".format(GIPHY_API_KEY, keywords))
+
+        async with aiohttp.get(url) as r:
+            result = await r.json()
+            if r.status == 200:
+                if result["data"]:
+                    await self.bot.say(result["data"][0]["url"])
+                else:
+                    await self.bot.say("No results found.")
+            else:
+                await self.bot.say("Error contacting the API")
+
+    @commands.command(pass_context=True, no_pm=True)
+    async def gifr(self, ctx, *keywords):
+        """Retrieves a random gif from a giphy search"""
+        if keywords:
+            keywords = "+".join(keywords)
+        else:
+            await self.bot.send_cmd_help(ctx)
+            return
+
+        url = ("http://api.giphy.com/v1/gifs/random?&api_key={}&tag={}"
+               "".format(GIPHY_API_KEY, keywords))
+
+        async with aiohttp.get(url) as r:
+            result = await r.json()
+            if r.status == 200:
+                if result["data"]:
+                    await self.bot.say(result["data"]["url"])
+                else:
+                    await self.bot.say("No results found.")
+            else:
+                await self.bot.say("Error contacting the API")
+                
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupserver(self, ctx, *, modrole: discord.Role=None):
