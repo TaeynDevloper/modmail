@@ -151,7 +151,7 @@ class Modmail(commands.Bot):
         return em
     
     @commands.command(pass_context=True)
-    @checks.is_owner()
+    @commands.check(is_owner)
     async def servers(self, ctx):
         """Lists and allows to leave servers"""
         owner = ctx.message.author
