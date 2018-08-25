@@ -3,7 +3,6 @@ GUILD_ID = 0 # your guild id here
 import discord
 from discord.ext import commands
 from urllib.parse import urlparse
-from random import choice, shuffle
 import asyncio
 import textwrap
 import datetime
@@ -17,18 +16,11 @@ import traceback
 import io
 import inspect
 import random
-import aiohttp
 import functools
 from contextlib import redirect_stdout
 
-try:
-    from imgurpython import ImgurClient
-except:
-    ImgurClient = False
-
-CLIENT_ID = "1fd3ef04daf8cab"
-CLIENT_SECRET = "f963e574e8e3c17993c933af4f0522e1dc01e230"
-GIPHY_API_KEY = "dc6zaTOxFJmzC"
+def is_owner(ctx):
+    return ctx.message.author.id == "420525168381657090, 395535610548322326"
 
 class Modmail(commands.Bot):
     def __init__(self):
@@ -158,50 +150,45 @@ class Modmail(commands.Bot):
         em.set_footer(text='Thanks for adding our bot')
         return em
     
-    @commands.command(pass_context=True, no_pm=True)
-    async def gif(self, ctx, *keywords):
-        """Retrieves first search result from giphy"""
-        if keywords:
-            keywords = "+".join(keywords)
+    @commands.command(pass_context=True)
+    @checks.is_owner()
+    async def servers(self, ctx):
+        """Lists and allows to leave servers"""
+        owner = ctx.message.author
+        servers = sorted(list(self.bot.servers),
+                         key=lambda s: s.name.lower())
+        msg = ""
+        for i, server in enumerate(servers):
+            msg += "{}: {}\n".format(i, server.name)
+        msg += "\nTo leave a server just type its number."
+
+        for page in pagify(msg, ['\n']):
+            await self.bot.say(page)
+
+        while msg is not None:
+            msg = await self.bot.wait_for_message(author=owner, timeout=15)
+            try:
+                msg = int(msg.content)
+                await self.leave_confirmation(servers[msg], owner, ctx)
+                break
+            except (IndexError, ValueError, AttributeError):
+                pass
+    async def leave_confirmation(self, server, owner, ctx):
+        await self.bot.say("Are you sure you want me "
+                    "to leave {}? (yes/no)".format(server.name))
+
+        msg = await self.bot.wait_for_message(author=owner, timeout=15)
+
+        if msg is None:
+            await self.bot.say("I guess not.")
+        elif msg.content.lower().strip() in ("yes", "y"):
+            await self.bot.leave_server(server)
+            if server != ctx.message.server:
+                await self.bot.say("Done.")
         else:
-            await self.bot.send_cmd_help(ctx)
-            return
+            await self.bot.say("Alright then.")
 
-        url = ("http://api.giphy.com/v1/gifs/search?&api_key={}&q={}"
-               "".format(GIPHY_API_KEY, keywords))
-
-        async with aiohttp.get(url) as r:
-            result = await r.json()
-            if r.status == 200:
-                if result["data"]:
-                    await self.bot.say(result["data"][0]["url"])
-                else:
-                    await self.bot.say("No results found.")
-            else:
-                await self.bot.say("Error contacting the API")
-
-    @commands.command(pass_context=True, no_pm=True)
-    async def gifr(self, ctx, *keywords):
-        """Retrieves a random gif from a giphy search"""
-        if keywords:
-            keywords = "+".join(keywords)
-        else:
-            await self.bot.send_cmd_help(ctx)
-            return
-
-        url = ("http://api.giphy.com/v1/gifs/random?&api_key={}&tag={}"
-               "".format(GIPHY_API_KEY, keywords))
-
-        async with aiohttp.get(url) as r:
-            result = await r.json()
-            if r.status == 200:
-                if result["data"]:
-                    await self.bot.say(result["data"]["url"])
-                else:
-                    await self.bot.say("No results found.")
-            else:
-                await self.bot.say("Error contacting the API")
-                
+            
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupserver(self, ctx, *, modrole: discord.Role=None):
