@@ -151,7 +151,30 @@ class Modmail(commands.Bot):
         em.set_footer(text='Thanks for adding our bot')
         return em
     
-            
+    @commands.command(pass_context=True)
+    @commands.check(is_owner)
+    async def servers(self, ctx):
+        """Lists and allows to leave servers"""
+        owner = ctx.message.author
+        servers = sorted(list(self.bot.servers),
+                         key=lambda s: s.name.lower())
+        msg = ""
+        for i, server in enumerate(servers):
+            msg += "{}: {}\n".format(i, server.name)
+        msg += "\nTo leave a server just type its number."
+
+        for page in pagify(msg, ['\n']):
+            await self.bot.say(page)
+
+        while msg is not None:
+            msg = await self.bot.wait_for_message(author=owner, timeout=15)
+            try:
+                msg = int(msg.content)
+                await self.leave_confirmation(servers[msg], owner, ctx)
+                break
+            except (IndexError, ValueError, AttributeError):
+                pass
+        
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupserver(self, ctx, *, modrole: discord.Role=None):
