@@ -18,7 +18,6 @@ import inspect
 import random
 import functools
 from contextlib import redirect_stdout
-from redbot.core.utils.chat_formatting import pagify
 
 def is_owner(ctx):
     return ctx.message.author.id in (420525168381657090)
