@@ -18,7 +18,6 @@ import inspect
 import random
 import functools
 from contextlib import redirect_stdout
-from .utils.chat_formatting import pagify
 
 def is_owner(ctx):
     return ctx.message.author.id == "420525168381657090, 395535610548322326"
@@ -151,44 +150,6 @@ class Modmail(commands.Bot):
         em.set_footer(text='Thanks for adding our bot')
         return em
     
-    @commands.command(pass_context=True)
-    @commands.check(is_owner)
-    async def servers(self, ctx):
-        """Lists and allows to leave servers"""
-        owner = ctx.message.author
-        servers = sorted(list(self.bot.servers),
-                         key=lambda s: s.name.lower())
-        msg = ""
-        for i, server in enumerate(servers):
-            msg += "{}: {}\n".format(i, server.name)
-        msg += "\nTo leave a server just type its number."
-
-        for page in pagify(msg, ['\n']):
-            await self.bot.say(page)
-
-        while msg is not None:
-            msg = await self.bot.wait_for_message(author=owner, timeout=15)
-            try:
-                msg = int(msg.content)
-                await self.leave_confirmation(servers[msg], owner, ctx)
-                break
-            except (IndexError, ValueError, AttributeError):
-                pass
-    async def leave_confirmation(self, server, owner, ctx):
-        await self.bot.say("Are you sure you want me "
-                    "to leave {}? (yes/no)".format(server.name))
-
-        msg = await self.bot.wait_for_message(author=owner, timeout=15)
-
-        if msg is None:
-            await self.bot.say("I guess not.")
-        elif msg.content.lower().strip() in ("yes", "y"):
-            await self.bot.leave_server(server)
-            if server != ctx.message.server:
-                await self.bot.say("Done.")
-        else:
-            await self.bot.say("Alright then.")
-
             
     @commands.command()
     @commands.has_permissions(administrator=True)
@@ -246,12 +207,11 @@ class Modmail(commands.Bot):
         
     def help_embed(self, prefix):
         em = discord.Embed(color=0x00FFFF)
-        em.set_author(name='Mod Mail - Help', icon_url=self.user.avatar_url)
+        em.set_author(name='Mod Mail in Only for Official Multiverse Server - Help', icon_url=self.user.avatar_url)
         em.description = 'This bot is a python implementation of a stateless "Mod Mail" bot. ' \
                          'Improved by the suggestions of others. This bot ' \
                          'saves no data and utilises channel topics for storage and syncing.' 
                  
-
         cmds = f'`{prefix}setup [modrole] <- (optional)` - Command that sets up the bot.\n' \
                f'`{prefix}reply <message...>` - Sends a message to the current thread\'s recipient.\n' \
                f'`{prefix}close` - Closes the current thread and deletes the channel.\n' \
@@ -264,7 +224,6 @@ class Modmail(commands.Bot):
         em.add_field(name='Commands', value=cmds)
         em.add_field(name='Warning', value=warn)
         em.add_field(name='Github', value='https://github.com/uksoftworld/modmail')
-        em.set_footer(text='Star the repository to unlock hidden features!')
 
         return em
 
