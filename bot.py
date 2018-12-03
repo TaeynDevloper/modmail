@@ -83,6 +83,7 @@ class Modmail(commands.Bot):
             to_use = bot.token.strip('"')
         try:
             bot.run(to_use, activity=discord.Game(os.getenv('STATUS')), reconnect=True)
+            bot.remove_command("help")
         except Exception as e:
             raise e
 
