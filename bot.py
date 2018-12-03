@@ -267,28 +267,10 @@ class Modmail(commands.Bot):
 
         return em
 
-    @commands.command()
-    async def rolldice(self, ctx):
-        """Rolls a 6 sided die."""
-        choices = ['1', '2', '3', '4', '5', '6']
-        color = discord.Color(value=0x00ff00)
-        em = discord.Embed(color=color, title='Rolled! (1 6-sided die)', description=random.choice(choices))
-        await ctx.send(embed=em)
-    @commands.command()
-    @commands.has_permissions(administrator = True)
-    async def dm(self, ctx, user: discord.Member, *, msg: str):
-        """Escort your DM to someone thru the bot. Usage: *dm [tag person] [msg]"""
-        try:
-            await user.send(msg)
-            await ctx.message.delete()            
-            await ctx.send("Success! Your DM has made it! :white_check_mark: ")
-        except discord.ext.commands.MissingPermissions:
-            await ctx.send("Aw, come on! You thought you could get away with DM'ing people without permissions.")
-        except:
-            await ctx.send("Error :x:. Make sure your message is shaped in this way: *dm [tag person] [msg]")
+
     @commands.command()
     @commands.has_permissions(ban_members=True)
-    async def mute(self, ctx, user: discord.Member, mutetime=None):
+    async def muteinchannel(self, ctx, user: discord.Member, mutetime=None):
         '''Forces someone to shut up. Usage: *mute [user] [time in mins]'''
         try:
             if mutetime is None:
@@ -313,26 +295,12 @@ class Modmail(commands.Bot):
 
     @commands.command()
     @commands.has_permissions(ban_members=True)
-    async def unmute(self, ctx, user: discord.Member):
+    async def unmuteinchannel(self, ctx, user: discord.Member):
         '''Allows someone to un-shut up. Usage: *unmute [user]'''
         await ctx.channel.set_permissions(user, send_messages=True)
         await ctx.channel.send(f"{user.mention} is now un-shutted up.")
 
-    @commands.command()
-    async def flipcoin(self, ctx):
-        """Flip a coin. Any coin."""
-        choices = ['Heads', 'Tails', 'Coin self-destructed.']
-        color = discord.Color(value=0x00ff00)
-        em=discord.Embed(color=color, title='Flipped a coin!')
-        em.description = random.choice(choices)
-        await ctx.send(embed=em)
-    @commands.command(aliases=['av'])
-    async def avatar(self, ctx, user: discord.Member):
-        """Returns a user's avatar url. Use *av [user], or just *av for your own."""
-        if user is None:
-            await ctx.send(ctx.message.author.avatar_url)                   
-        else:
-            await ctx.send(user.avatar_url)      
+
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupmail(self, ctx, *, modrole: discord.Role=None):
@@ -386,15 +354,6 @@ class Modmail(commands.Bot):
         except:
             pass
         await ctx.channel.delete()
-
-    @commands.command()
-    async def ping(self, ctx):
-        """Pong! Returns your websocket latency."""
-        em = discord.Embed()
-        em.title ='Pong! Websocket Latency:'
-        em.description = f'{self.ws.latency * 1000:.4f} ms'
-        em.color = 0x00FF00
-        await ctx.send(embed=em)
 
     def guess_modroles(self, ctx):
         '''Finds roles if it has the manage_guild perm'''
