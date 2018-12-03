@@ -27,6 +27,7 @@ class Modmail(commands.Bot):
         super().__init__(command_prefix=self.get_pre)
         self.uptime = datetime.datetime.utcnow()
         self._add_commands()
+        self.remove_command('help')
 
     def _add_commands(self):
         '''Adds commands automatically'''
