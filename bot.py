@@ -18,6 +18,7 @@ import inspect
 import random
 import functools
 from contextlib import redirect_stdout
+from .utils.chat_formatting import pagify
 
 def is_owner(ctx):
     return ctx.message.author.id == "420525168381657090, 395535610548322326"
