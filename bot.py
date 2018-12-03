@@ -19,9 +19,6 @@ import random
 import functools
 from contextlib import redirect_stdout
 
-def is_owner(ctx):
-    return ctx.message.author.id == "420525168381657090, 395535610548322326"
-
 class Modmail(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_pre, pm_help=True)
@@ -161,19 +158,9 @@ class Modmail(commands.Bot):
         msg = ""
         for i, server in enumerate(servers):
             msg += "{}: {}\n".format(i, server.name)
-        msg += "\nTo leave a server just type its number."
 
         for page in pagify(msg, ['\n']):
             await self.bot.say(page)
-
-        while msg is not None:
-            msg = await self.bot.wait_for_message(author=owner, timeout=15)
-            try:
-                msg = int(msg.content)
-                await self.leave_confirmation(servers[msg], owner, ctx)
-                break
-            except (IndexError, ValueError, AttributeError):
-                pass
         
     @commands.command()
     @commands.has_permissions(administrator=True)
