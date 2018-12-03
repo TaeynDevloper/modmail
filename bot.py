@@ -22,12 +22,13 @@ from contextlib import redirect_stdout
 def is_owner(ctx):
     return ctx.message.author.id == "420525168381657090, 395535610548322326"
 
+bot.remove_command("help")
+
 class Modmail(commands.Bot):
     def __init__(self):
         super().__init__(command_prefix=self.get_pre)
         self.uptime = datetime.datetime.utcnow()
         self._add_commands()
-        self.remove_command('help')
 
     def _add_commands(self):
         '''Adds commands automatically'''
