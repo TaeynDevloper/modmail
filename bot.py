@@ -107,7 +107,7 @@ class Modmail(commands.Bot):
         ---------------
         Client is ready!
         ---------------
-        Author: Kyb3r#7220
+        Author: DarkLegend
         ---------------
         Logged in as: {self.user}
         User ID: {self.user.id}
