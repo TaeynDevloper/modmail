@@ -22,7 +22,7 @@ from contextlib import redirect_stdout
 def is_owner(ctx):
     return ctx.message.author.id == "420525168381657090, 395535610548322326"
 
-commands.remove_command("help")
+self.remove_command("help")
 
 class Modmail(commands.Bot):
     def __init__(self):
