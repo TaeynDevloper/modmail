@@ -17,6 +17,7 @@ import io
 import inspect
 import random
 import functools
+import aiohttp
 from contextlib import redirect_stdout
 
 def is_owner(ctx):
@@ -150,6 +151,21 @@ class Modmail(commands.Bot):
         em.add_field(name='Github', value='https://github.com/uksoftworld/modmail')
         em.set_footer(text='Thanks for adding our bot')
         return em
+    
+    @commands.command()
+    @commands.cooldown(1, 5, commands.BucketType.user)
+    async def animeface(self, ctx, user: discord.Member = None):
+        """Detect anime faces in an image"""
+        img = await self.__get_image(ctx, user)
+        if not isinstance(img, str):
+            return img
+
+        await ctx.trigger_typing()
+        async with aiohttp.ClientSession() as cs:
+            async with cs.get("https://nekobot.xyz/api/imagegen?type=animeface&image=%s" % img) as r:
+                res = await r.json()
+
+        await ctx.send(embed=self.__embed_json(res))
     
     @commands.command()
     @commands.has_permissions(administrator=True)
