@@ -153,21 +153,6 @@ class Modmail(commands.Bot):
         return em
     
     @commands.command()
-    @commands.cooldown(1, 5, commands.BucketType.user)
-    async def animeface(self, ctx, user: discord.Member = None):
-        """Detect anime faces in an image"""
-        img = await self.__get_image(ctx, user)
-        if not isinstance(img, str):
-            return img
-
-        await ctx.trigger_typing()
-        async with aiohttp.ClientSession() as cs:
-            async with cs.get("https://nekobot.xyz/api/imagegen?type=animeface&image=%s" % img) as r:
-                res = await r.json()
-
-        await ctx.send(embed=self.__embed_json(res))
-    
-    @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupserver(self, ctx, *, modrole: discord.Role=None):
         '''Sets up a server'''
