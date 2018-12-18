@@ -151,40 +151,7 @@ class Modmail(commands.Bot):
         em.add_field(name='Github', value='https://github.com/uksoftworld/modmail')
         em.set_footer(text='Thanks for adding our bot')
         return em
-    
-    @commands.command(pass_context=True)
-    async def afk(self,ctx,*,reason : str):
-        user = ctx.message.author
-        msg = ctx.message
-        afk = open('afk.json').read()
-        afk = json.loads(afk)
-        afk[user.id] = reason
-        afk = json.dumps(afk)
-        x = await self.bot.say('You are now afk: {}'.format(reason))
-        with open('afk.json', 'w') as f:
-            f.write(afk)
-        await asyncio.sleep(5)
-        await self.bot.delete_messages([x,msg])
-
-
-    async def on_message(self,message):
-        user = message.author
-        channel = message.channel
-        afk = open('afk.json').read()
-        afk = json.loads(afk)
-        if user.id in afk:
-            del afk[user.id]
-            x = await self.bot.send_message(channel, 'You are now back from being afk.')
-        else:
-            mentions = message.mentions
-            for member in mentions:
-                if member.id in afk:
-                    y = await self.bot.send_message(channel, '**{}** is afk: *{}*'.format(member.name, afk[member.id]))
-        afk = json.dumps(afk)
-        with open('afk.json','w') as f:
-            f.write(afk)
-
-    
+      
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupserver(self, ctx, *, modrole: discord.Role=None):
@@ -260,6 +227,38 @@ class Modmail(commands.Bot):
         em.add_field(name='Github', value='https://github.com/uksoftworld/modmail')
 
         return em
+
+    @commands.command(pass_context=True)
+    async def afk(self,ctx,*,reason : str):
+        user = ctx.message.author
+        msg = ctx.message
+        afk = open('afk.json').read()
+        afk = json.loads(afk)
+        afk[user.id] = reason
+        afk = json.dumps(afk)
+        x = await self.bot.say('You are now afk: {}'.format(reason))
+        with open('afk.json', 'w') as f:
+            f.write(afk)
+        await asyncio.sleep(5)
+        await self.bot.delete_messages([x,msg])
+
+
+    async def on_message(self,message):
+        user = message.author
+        channel = message.channel
+        afk = open('afk.json').read()
+        afk = json.loads(afk)
+        if user.id in afk:
+            del afk[user.id]
+            x = await self.bot.send_message(channel, 'You are now back from being afk.')
+        else:
+            mentions = message.mentions
+            for member in mentions:
+                if member.id in afk:
+                    y = await self.bot.send_message(channel, '**{}** is afk: *{}*'.format(member.name, afk[member.id]))
+        afk = json.dumps(afk)
+        with open('afk.json','w') as f:
+            f.write(afk)
 
 
     @commands.command()
