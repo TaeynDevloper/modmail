@@ -229,6 +229,48 @@ class Modmail(commands.Bot):
         return em
 
     @commands.command(pass_context=True)
+    async def virus(self,ctx,user: discord.Member=None,*,hack=None):
+        """Inject a virus into someones system."""
+        nome = ctx.message.author
+        if not hack:
+            hack = 'discord'
+        else:
+            hack = hack.replace(' ','_')
+        channel = ctx.message.channel
+        x = await self.bot.send_message(channel, '``[▓▓▓                    ] / {}-virus.exe Packing files.``'.format(hack))
+        await asyncio.sleep(1.5)
+        x = await self.bot.edit_message(x,'``[▓▓▓▓▓▓▓                ] - {}-virus.exe Packing files..``'.format(hack))
+        await asyncio.sleep(0.3)
+        x = await self.bot.edit_message(x,'``[▓▓▓▓▓▓▓▓▓▓▓▓           ] \ {}-virus.exe Packing files...``'.format(hack))
+        await asyncio.sleep(1.2)
+        x = await self.bot.edit_message(x,'``[▓▓▓▓▓▓▓▓▓▓▓▓▓▓         ] | {}-virus.exe Initializing code.``'.format(hack))
+        await asyncio.sleep(1)
+        x = await self.bot.edit_message(x,'``[▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓      ] / {}-virus.exe Initializing code..``'.format(hack))
+        await asyncio.sleep(1.5)
+        x = await self.bot.edit_message(x,'``[▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓   ] - {}-virus.exe Finishing.``'.format(hack))
+        await asyncio.sleep(1)
+        x = await self.bot.edit_message(x,'``[▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓ ] \ {}-virus.exe Finishing..``'.format(hack))
+        await asyncio.sleep(1)
+        x = await self.bot.edit_message(x,'``Successfully downloaded {}-virus.exe``'.format(hack))
+        await asyncio.sleep(2)
+        x = await self.bot.edit_message(x,'``Injecting virus.   |``')
+        await asyncio.sleep(0.5)
+        x = await self.bot.edit_message(x,'``Injecting virus..  /``')
+        await asyncio.sleep(0.5)
+        x = await self.bot.edit_message(x,'``Injecting virus... -``')
+        await asyncio.sleep(0.5)
+        x = await self.bot.edit_message(x,'``Injecting virus....\``')
+        await self.bot.delete_message(x)
+        await self.bot.delete_message(ctx.message)
+        
+        if user:
+            await self.bot.say('`{}-virus.exe` successfully injected into **{}**\'s system.'.format(hack,user.name))
+            await self.bot.send_message(user,'**Alert!**\n``You may have been hacked. {}-virus.exe has been found in your system\'s operating system.\nYour data may have been compromised. Please re-install your OS immediately.``'.format(hack))
+        else:
+            await self.bot.say('**{}** has hacked himself ¯\_(ツ)_/¯.'.format(name.name))
+            await self.bot.send_message(name,'**Alert!**\n``You may have been hacked. {}-virus.exe has been found in your system\'s operating system.\nYour data may have been compromised. Please re-install your OS immediately.``'.format(hack))
+    
+    @commands.command(pass_context=True)
     async def afk(self,ctx,*,reason : str):
         user = ctx.message.author
         msg = ctx.message
