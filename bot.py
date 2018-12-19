@@ -152,60 +152,6 @@ class Modmail(commands.Bot):
         em.set_footer(text='Thanks for adding our bot')
         return em
       
-    @commands.group(aliases=['away'])
-    async def afk(self, ctx):
-        """Set as AFK so users will know to stop bothering you."""
-        if ctx.invoked_subcommand is None:
-            await ctx.send("`Incorrect Usage`\n```mv!afk on|enable [reason]``` or ```mv!afk off|disable```")
-        
-    @afk.command(aliases=['enable'])
-    async def on(self, ctx, *, reason=None):
-        """Turn AFK On (AFK SUB)"""
-        if reason is None:
-            reason = 'No Reason'
-        else:
-            pass
-        try:
-            await self.afk_on(user=ctx.message.author.id, reason=reason)
-            await ctx.send("I have successfully set you as **AFK**!")
-        except Exception as e:
-            await ctx.send(f"```py\n{e}```")
-      
-    @afk.command(aliases=['disable'])
-    async def off(self, ctx):
-        """Turn AFK Off (AFK SUB)"""
-        try:
-            await self.afk_off(user=ctx.message.author.id)
-            await ctx.send(f"Welcome back, **{ctx.message.author}**!")
-        except Exception as e:
-            await ctx.send(f"```py\n{e}```")
-        
-        
-    async def afk_on(self, user=None, reason=None):
-        with open('afk.json', 'r') as f:
-            users = json.load(f)
-         
-        try:
-            users[user] = {}
-            users[user]['AFK'] = True
-            users[user]['reason'] = reason
-        except:
-            users[user]['AFK'] = True
-            users[user]['reason'] = reason
-        
-        with open('afk.json', 'r') as f:
-            json.dump(users, f)
-     
-    async def afk_off(self, user=None):
-        with open('afk.json', 'r') as f:
-            users = json.load(f)
-            
-        users[user]['AFK'] = False
-        users[user]['reason'] = 'None'
-        
-        with open('afk.json', 'w') as f:
-            json.dump(users, f)
-
         
     @commands.command()
     @commands.has_permissions(administrator=True)
