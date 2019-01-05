@@ -48,6 +48,25 @@ class Modmail(commands.Bot):
         await member.add_roles(role, reason='Reaction role')
         await member.send(f'You got verified in {self.guild.name}')
         
+    async def on_raw_reaction_add(self, payload):
+        channel = discord.utils.get(self.guild.text_channels, name='★verify-for-chatting★')
+        if not payload.guild_id:
+            return
+
+        if payload.channel_id != channel.id:
+            return	
+
+        guild = self.get_guild(payload.guild_id)
+        member = guild.get_member(payload.user_id)
+
+        if payload.emoji.id != 418966077763223552:
+            role = discord.utils.get(guild.roles, name="Verified")
+        else:
+            return
+
+        await member.remove_roles(role, reason='Reaction role')
+        await member.send(f'You got unverified in {self.guild.name}')
+        
     def _add_commands(self):
         '''Adds commands automatically'''
         for attr in dir(self):
