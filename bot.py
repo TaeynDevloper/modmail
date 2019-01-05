@@ -152,7 +152,7 @@ class Modmail(commands.Bot):
         em.set_footer(text='Thanks for adding our bot')
         return em
       
-    @commands.event
+    @self.event
     async def on_raw_reaction_add(payload):
         if not payload.guild_id:
             return
@@ -169,6 +169,7 @@ class Modmail(commands.Bot):
             return
 
         await member.add_roles(role, reason='Reaction role')
+
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupserver(self, ctx, *, modrole: discord.Role=None):
