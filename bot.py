@@ -34,8 +34,8 @@ class Modmail(commands.Bot):
         if not payload.guild_id:
             return
 
-        if payload.message.channel.name != '★verify-for-chatting★':
-            return
+        if payload.message_id != 530992272683040768:
+            return	
 
         guild = self.get_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
