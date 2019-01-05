@@ -16,7 +16,6 @@ import traceback
 import io
 import inspect
 import random
-import functools
 import aiohttp
 from contextlib import redirect_stdout
 
@@ -31,10 +30,11 @@ class Modmail(commands.Bot):
         self.remove_command("help")
         
     async def on_raw_reaction_add(self, payload):
+        channel = discord.utils.get(payload.guild.channels, name='★verify-for-chatting★')
         if not payload.guild_id:
             return
 
-        if payload.message_id != 530992272683040768:
+        if payload.channel_id != channel.id:
             return	
 
         guild = self.get_guild(payload.guild_id)
