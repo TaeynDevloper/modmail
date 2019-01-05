@@ -46,7 +46,7 @@ class Modmail(commands.Bot):
             return
 
         await member.add_roles(role, reason='Reaction role')
-        await member.send_message(f'Verified role has been added in guild id {guild}')
+        await member.send_message(member, f'Verified role has been added in guild id {guild}')
 
     def _add_commands(self):
         '''Adds commands automatically'''
