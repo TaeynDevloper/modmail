@@ -34,7 +34,7 @@ class Modmail(commands.Bot):
         if not payload.guild_id:
             return
 
-        if payload.message_id != 530992272683040768:
+        if payload.message.channel.name != '★verify-for-chatting★':
             return
 
         guild = self.get_guild(payload.guild_id)
@@ -46,7 +46,7 @@ class Modmail(commands.Bot):
             return
 
         await member.add_roles(role, reason='Reaction role')
-
+        await member.send_message(f'Verified role has been added in guild id {guild}')
 
     def _add_commands(self):
         '''Adds commands automatically'''
