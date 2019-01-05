@@ -37,7 +37,7 @@ class Modmail(commands.Bot):
         if payload.message_id != 530992272683040768:
             return
 
-        guild = ctx.get_guild(payload.guild_id)
+        guild = self.get_guild(payload.guild_id)
         member = guild.get_member(payload.user_id)
 
         if payload.emoji.id != 418966077763223552:
