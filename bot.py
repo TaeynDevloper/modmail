@@ -169,7 +169,6 @@ class Modmail(commands.Bot):
             return
 
         await member.add_roles(role, reason='Reaction role')
-    @commands.event
     async def on_raw_reaction_remove(payload)
         if not payload.guild_id:
             return
