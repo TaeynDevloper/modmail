@@ -30,7 +30,6 @@ class Modmail(commands.Bot):
         self._add_commands()
         self.remove_command("help")
         
-    @self.event
     async def on_raw_reaction_add(payload):
         if not payload.guild_id:
             return
