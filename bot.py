@@ -30,7 +30,7 @@ class Modmail(commands.Bot):
         self.remove_command("help")
         
     async def on_raw_reaction_add(self, payload):
-        channel = discord.utils.get(payload.guild_channels, name='★verify-for-chatting★')
+        channel = discord.utils.get(payload.guild.text_channels, name='★verify-for-chatting★')
         if not payload.guild_id:
             return
 
