@@ -152,7 +152,7 @@ class Modmail(commands.Bot):
         em.set_footer(text='Thanks for adding our bot')
         return em
       
-    @self.event
+    @bot.event
     async def on_raw_reaction_add(payload):
         if not payload.guild_id:
             return
