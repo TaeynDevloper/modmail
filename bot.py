@@ -48,7 +48,7 @@ class Modmail(commands.Bot):
         await member.add_roles(role, reason='Reaction role')
         await member.send(f'You got verified in {self.guild.name}')
         
-    async def on_raw_reaction_add(self, payload):
+    async def on_raw_reaction_remove(self, payload):
         channel = discord.utils.get(self.guild.text_channels, name='★verify-for-chatting★')
         if not payload.guild_id:
             return
