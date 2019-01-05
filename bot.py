@@ -152,7 +152,41 @@ class Modmail(commands.Bot):
         em.set_footer(text='Thanks for adding our bot')
         return em
       
-        
+    @commands.event
+    async def on_raw_reaction_add(payload):
+        if not payload.guild_id:
+            return
+
+        if payload.message_id != 530992272683040768:
+            return
+
+        guild = ctx.get_guild(payload.guild_id)
+        member = guild.get_member(payload.user_id)
+
+        if payload.emoji.id != 418966077763223552:
+            role = discord.utils.get(guild.roles, name="Verified")
+        else:
+            return
+
+        await member.add_roles(role, reason='Reaction role')
+    @commands.event
+    async def on_raw_reaction_remove(payload)
+        if not payload.guild_id:
+            return
+
+        if payload.message_id != 530992272683040768:
+            return
+
+        guild = ctx.get_guild(payload.guild_id)
+        member = guild.get_member(payload.user_id)
+
+        if payload.emoji.id != 418966077763223552:
+            role = discord.utils.get(guild.roles, name="Verified")
+        else:
+            return
+
+        await member.remove_roles(role, reason='Reaction role')
+    
     @commands.command()
     @commands.has_permissions(administrator=True)
     async def setupserver(self, ctx, *, modrole: discord.Role=None):
