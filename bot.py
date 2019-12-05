@@ -80,7 +80,7 @@ class Modmail(commands.Bot):
         try:
             with open('config.json') as f:
                 config = json.load(f)
-                if config.get('TOKEN') == "your_token_here":
+                if config.get('TOKEN') == "NjI2NDU4Nzk1MjQ5MzY5MTA0.Xej9cg.hrMJhlPGpmlLq3pKR1FHmjUn-Fw":
                     if not os.environ.get('TOKEN'):
                         self.run_wizard()
                 else:
@@ -100,7 +100,7 @@ class Modmail(commands.Bot):
     def run_wizard():
         '''Wizard for first start'''
         print('------------------------------------------')
-        token = input('Enter your token:\n> ')
+        token = input('NjI2NDU4Nzk1MjQ5MzY5MTA0.Xej9cg.hrMJhlPGpmlLq3pKR1FHmjUn-Fw')
         print('------------------------------------------')
         data = {
                 "TOKEN" : token,
@@ -136,7 +136,7 @@ class Modmail(commands.Bot):
 
     @property
     def guild_id(self):
-        from_heroku = os.environ.get('GUILD_ID')
+        from_heroku = os.environ.get('648162058352984064')
         return int(from_heroku) if from_heroku else GUILD_ID
 
     async def on_ready(self):
